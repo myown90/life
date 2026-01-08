@@ -48,170 +48,223 @@
         .amount-display {
             font-variant-numeric: tabular-nums;
         }
+        .timeline-item {
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px solid #e2e8f0;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-color);
+        }
+        .timeline-weekday-home::before { background: #94a3b8; }
+        .timeline-weekday-out::before { background: #6366f1; }
+        .timeline-weekend::before { background: #f59e0b; }
     </style>
 </head>
 <body class="p-4 md:p-8">
-    <div id="app" class="max-w-4xl mx-auto">
+    <div id="app" class="max-w-6xl mx-auto pb-12">
         <!-- Header -->
         <header class="mb-10 text-center">
             <h1 class="text-3xl font-bold tracking-tight text-slate-800">Life Design Budget</h1>
             <p class="text-slate-500 mt-2">理想の生活バランスをシミュレーション</p>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             
-            <!-- Income Section -->
-            <div class="glass-card p-6">
-                <div class="flex items-center mb-6">
-                    <div class="section-icon bg-emerald-100 text-emerald-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <!-- Left & Middle Column: Main Inputs -->
+            <div class="lg:col-span-3 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Income Section -->
+                    <div class="glass-card p-6">
+                        <div class="flex items-center mb-6">
+                            <div class="section-icon bg-emerald-100 text-emerald-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <h2 class="text-xl font-semibold">収入</h2>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600">収入A</span>
+                                <input type="number" value="500000" data-cat="income" class="input-minimal w-24 text-right font-medium" oninput="updateAll()">
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600">収入B</span>
+                                <input type="number" value="400000" data-cat="income" class="input-minimal w-24 text-right font-medium" oninput="updateAll()">
+                            </div>
+                            <div class="pt-4 border-t border-slate-100 flex justify-between items-baseline">
+                                <span class="text-sm text-slate-400">合計収入</span>
+                                <span class="text-2xl font-bold text-emerald-600 amount-display" id="total-income">¥0</span>
+                            </div>
+                        </div>
                     </div>
-                    <h2 class="text-xl font-semibold">収入</h2>
+
+                    <!-- Fixed Costs -->
+                    <div class="glass-card p-6">
+                        <div class="flex items-center mb-6">
+                            <div class="section-icon bg-blue-100 text-blue-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                            </div>
+                            <h2 class="text-xl font-semibold">固定費</h2>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600">住宅費</span>
+                                <input type="number" value="200000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600">水道光熱・通信</span>
+                                <input type="number" value="35000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-slate-600">奨学金・HafH等</span>
+                                <input type="number" value="35000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600">メイン収入</span>
-                        <input type="number" value="500000" data-cat="income" class="input-minimal w-24 text-right font-medium" oninput="updateAll()">
+
+                <!-- Daily Routine Section -->
+                <div class="glass-card p-6">
+                    <div class="flex items-center mb-6">
+                        <div class="section-icon bg-violet-100 text-violet-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <h2 class="text-xl font-semibold">1日の生活リズム (食費込)</h2>
                     </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600">サブ収入</span>
-                        <input type="number" value="400000" data-cat="income" class="input-minimal w-24 text-right font-medium" oninput="updateAll()">
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Pattern 1: Weekday Home -->
+                        <div class="space-y-4">
+                            <h3 class="flex items-center gap-2 text-sm font-bold text-slate-500 uppercase tracking-widest">
+                                <span class="w-2 h-2 rounded-full bg-slate-400"></span> 平日家食 (5日間)
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="timeline-item timeline-weekday-home"><div class="flex justify-between items-center"><span class="text-xs text-slate-600">朝食・カフェ</span><input type="number" value="500" data-daily="weekday-home" class="input-minimal w-16 text-right text-sm" oninput="updateAll()"></div></div>
+                                <div class="timeline-item timeline-weekday-home"><div class="flex justify-between items-center"><span class="text-xs text-slate-600">ランチ</span><input type="number" value="1000" data-daily="weekday-home" class="input-minimal w-16 text-right text-sm" oninput="updateAll()"></div></div>
+                                <div class="timeline-item timeline-weekday-home"><div class="flex justify-between items-center"><span class="text-xs text-slate-600">夕食・雑費</span><input type="number" value="1500" data-daily="weekday-home" class="input-minimal w-16 text-right text-sm" oninput="updateAll()"></div></div>
+                                <div class="pt-2 flex justify-between font-semibold text-slate-600 border-t border-slate-100 mt-2">
+                                    <span class="text-xs">合計/日</span>
+                                    <span id="weekday-home-total" class="amount-display text-sm">¥0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pattern 2: Weekday Out -->
+                        <div class="space-y-4">
+                            <h3 class="flex items-center gap-2 text-sm font-bold text-indigo-500 uppercase tracking-widest">
+                                <span class="w-2 h-2 rounded-full bg-indigo-400"></span> 平日外食時 (17日間)
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="timeline-item timeline-weekday-out"><div class="flex justify-between items-center"><span class="text-xs text-slate-600">朝食・カフェ</span><input type="number" value="500" data-daily="weekday-out" class="input-minimal w-16 text-right text-sm" oninput="updateAll()"></div></div>
+                                <div class="timeline-item timeline-weekday-out"><div class="flex justify-between items-center"><span class="text-xs text-slate-600">ランチ</span><input type="number" value="1000" data-daily="weekday-out" class="input-minimal w-16 text-right text-sm" oninput="updateAll()"></div></div>
+                                <div class="timeline-item timeline-weekday-out"><div class="flex justify-between items-center"><span class="text-xs text-slate-600 font-medium text-indigo-600">外食・飲み</span><input type="number" value="7000" data-daily="weekday-out" class="input-minimal w-16 text-right text-sm border-indigo-200" oninput="updateAll()"></div></div>
+                                <div class="pt-2 flex justify-between font-semibold text-indigo-600 border-t border-indigo-100 mt-2">
+                                    <span class="text-xs">合計/日</span>
+                                    <span id="weekday-out-total" class="amount-display text-sm">¥0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pattern 3: Weekend -->
+                        <div class="space-y-4">
+                            <h3 class="flex items-center gap-2 text-sm font-bold text-amber-500 uppercase tracking-widest">
+                                <span class="w-2 h-2 rounded-full bg-amber-400"></span> 休日レジャー (8日間)
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="timeline-item timeline-weekend"><div class="flex justify-between items-center"><span class="text-xs text-slate-600">ブランチ等</span><input type="number" value="3000" data-daily="weekend" class="input-minimal w-16 text-right text-sm" oninput="updateAll()"></div></div>
+                                <div class="timeline-item timeline-weekend"><div class="flex justify-between items-center"><span class="text-xs text-slate-600">ディナー</span><input type="number" value="12000" data-daily="weekend" class="input-minimal w-16 text-right text-sm" oninput="updateAll()"></div></div>
+                                <div class="timeline-item timeline-weekend"><div class="flex justify-between items-center"><span class="text-xs text-slate-600">その他レジャー</span><input type="number" value="2000" data-daily="weekend" class="input-minimal w-16 text-right text-sm" oninput="updateAll()"></div></div>
+                                <div class="pt-2 flex justify-between font-semibold text-amber-600 border-t border-amber-100 mt-2">
+                                    <span class="text-xs">合計/日</span>
+                                    <span id="weekend-total" class="amount-display text-sm">¥0</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="pt-4 border-t border-slate-100 flex justify-between items-baseline">
-                        <span class="text-sm text-slate-400">合計収入</span>
-                        <span class="text-2xl font-bold text-emerald-600 amount-display" id="total-income">¥0</span>
+                </div>
+
+                <!-- Bottom Sections -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Travel -->
+                    <div class="glass-card p-6">
+                        <div class="flex items-center mb-6">
+                            <div class="section-icon bg-indigo-100 text-indigo-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <h2 class="text-xl font-semibold">旅行・特別イベント</h2>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center"><span class="text-slate-600">交通費</span><input type="number" value="50000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()"></div>
+                            <div class="flex justify-between items-center"><span class="text-slate-600">宿泊費</span><input type="number" value="80000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()"></div>
+                            <div class="flex justify-between items-center"><span class="text-slate-600">食費・観光費</span><input type="number" value="60000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()"></div>
+                        </div>
+                    </div>
+                    <!-- Misc -->
+                    <div class="glass-card p-6">
+                        <div class="flex items-center mb-6">
+                            <div class="section-icon bg-rose-100 text-rose-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                            </div>
+                            <h2 class="text-xl font-semibold">雑費・美容・健康</h2>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center"><span class="text-slate-600">健康管理・美容</span><input type="number" value="20000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()"></div>
+                            <div class="flex justify-between items-center"><span class="text-slate-600">日用品・買い物</span><input type="number" value="20000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Fixed Costs -->
-            <div class="glass-card p-6">
-                <div class="flex items-center mb-6">
-                    <div class="section-icon bg-blue-100 text-blue-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
-                    </div>
-                    <h2 class="text-xl font-semibold">固定費</h2>
-                </div>
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600">住宅費</span>
-                        <input type="number" value="200000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600">水道光熱・通信</span>
-                        <input type="number" value="35000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600">奨学金・HafH等</span>
-                        <input type="number" value="35000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Food Section -->
-            <div class="glass-card p-6 md:col-span-2">
-                <div class="flex items-center mb-6">
-                    <div class="section-icon bg-orange-100 text-orange-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
-                    </div>
-                    <h2 class="text-xl font-semibold">食費・外食</h2>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Right Column: Dashboard -->
+            <div class="space-y-6">
+                <div class="glass-card p-6 border-l-4 border-indigo-500">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">週次目安 (Weekly)</h3>
                     <div class="space-y-4">
-                        <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest">外食・飲み</h3>
-                        <div class="flex justify-between items-center">
-                            <span class="text-slate-600">飲み・ランチ</span>
-                            <input type="number" value="180000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-slate-600">特別なレストラン</span>
-                            <input type="number" value="50000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                        </div>
+                        <div><p class="text-xs text-slate-400">平均週次支出</p><p id="weekly-avg" class="text-xl font-bold text-slate-800 amount-display">¥0</p></div>
+                        <div class="p-3 bg-indigo-50 rounded-xl"><p class="text-[10px] text-indigo-500 font-medium uppercase">週末に使える余力</p><p id="weekend-allowance" class="text-lg font-bold text-indigo-700 amount-display">¥0</p></div>
                     </div>
+                </div>
+                <div class="glass-card p-6 border-l-4 border-emerald-500">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">日次目安 (Daily)</h3>
                     <div class="space-y-4">
-                        <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest">家食</h3>
-                        <div class="flex justify-between items-center">
-                            <span class="text-slate-600">朝食 (スムージー等)</span>
-                            <input type="number" value="15000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-slate-600">昼食 (バランス食)</span>
-                            <input type="number" value="15000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-slate-600">夕食</span>
-                            <input type="number" value="50000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                        </div>
+                        <div><p class="text-xs text-slate-400">全体平均/日</p><p id="daily-avg" class="text-xl font-bold text-slate-800 amount-display">¥0</p></div>
+                        <div class="p-3 bg-emerald-50 rounded-xl"><p class="text-[10px] text-emerald-500 font-medium uppercase">ルーチン日次平均</p><p id="actual-daily-avg" class="text-lg font-bold text-emerald-700 amount-display">¥0</p></div>
                     </div>
+                </div>
+                <div class="glass-card p-6 bg-gradient-to-br from-slate-800 to-slate-900 text-white">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Status Advice</h3>
+                    <p id="status-message" class="text-xs leading-relaxed opacity-90">計算中...</p>
                 </div>
             </div>
-
-            <!-- Travel Section -->
-            <div class="glass-card p-6">
-                <div class="flex items-center mb-6">
-                    <div class="section-icon bg-indigo-100 text-indigo-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                    </div>
-                    <h2 class="text-xl font-semibold">旅行・レジャー</h2>
-                </div>
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600">交通費</span>
-                        <input type="number" value="100000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600">宿泊費</span>
-                        <input type="number" value="80000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600">食費・観光費</span>
-                        <input type="number" value="80000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                    </div>
-                </div>
-            </div>
-
-            <!-- Misc Section -->
-            <div class="glass-card p-6">
-                <div class="flex items-center mb-6">
-                    <div class="section-icon bg-rose-100 text-rose-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
-                    </div>
-                    <h2 class="text-xl font-semibold">雑費・美容・健康</h2>
-                </div>
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600">健康管理・美容</span>
-                        <input type="number" value="30000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-slate-600">日用品・買い物</span>
-                        <input type="number" value="30000" data-cat="expense" class="input-minimal w-24 text-right" oninput="updateAll()">
-                    </div>
-                </div>
-            </div>
-
         </div>
 
-        <!-- Footer Summary Sticky Bar -->
-        <div class="sticky bottom-4 mt-12 glass-card p-6 border-t border-slate-200 shadow-2xl overflow-hidden">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex gap-8">
+        <!-- Summary Bar (Non-fixed at bottom) -->
+        <div class="mt-8 glass-card p-6 border-t border-slate-200 shadow-xl overflow-hidden">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex gap-8 md:gap-12">
                     <div class="text-center md:text-left">
-                        <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">支出合計</p>
-                        <p class="text-xl font-semibold text-slate-700 amount-display" id="total-expense">¥0</p>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">月間支出合計</p>
+                        <p id="total-expense" class="text-xl font-semibold text-slate-700 amount-display">¥0</p>
                     </div>
                     <div class="text-center md:text-left">
-                        <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">月間収入</p>
-                        <p class="text-xl font-semibold text-slate-700 amount-display" id="summary-income">¥0</p>
+                        <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">月間収入合計</p>
+                        <p id="summary-income" class="text-xl font-semibold text-slate-700 amount-display">¥0</p>
                     </div>
                 </div>
-                <div class="bg-white px-8 py-3 rounded-2xl shadow-inner flex flex-col items-center">
-                    <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">今月の余り</p>
-                    <p class="text-3xl font-black amount-display" id="balance">¥0</p>
+                <div class="bg-white px-8 py-4 rounded-2xl shadow-inner flex flex-col items-center min-w-[240px]">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">今月の余り (貯蓄可能額)</p>
+                    <p id="balance" class="text-3xl font-black amount-display">¥0</p>
                 </div>
             </div>
             <!-- Progress Bar -->
-            <div class="w-full bg-slate-100 h-2 mt-4 rounded-full overflow-hidden">
+            <div class="w-full bg-slate-100 h-2 mt-6 rounded-full overflow-hidden">
                 <div id="progress-bar" class="h-full bg-indigo-500 transition-all duration-500" style="width: 0%"></div>
             </div>
         </div>
@@ -224,53 +277,71 @@
 
         function updateAll() {
             const incomeInputs = document.querySelectorAll('input[data-cat="income"]');
-            const expenseInputs = document.querySelectorAll('input[data-cat="expense"]');
+            const fixedExpenseInputs = document.querySelectorAll('input[data-cat="expense"]');
+            
+            // Pattern inputs
+            const homeWeekdayInputs = document.querySelectorAll('input[data-daily="weekday-home"]');
+            const outWeekdayInputs = document.querySelectorAll('input[data-daily="weekday-out"]');
+            const weekendInputs = document.querySelectorAll('input[data-daily="weekend"]');
             
             let totalIncome = 0;
-            incomeInputs.forEach(input => {
-                totalIncome += parseFloat(input.value) || 0;
-            });
+            incomeInputs.forEach(i => totalIncome += parseFloat(i.value) || 0);
 
-            let totalExpense = 0;
-            expenseInputs.forEach(input => {
-                totalExpense += parseFloat(input.value) || 0;
-            });
+            let fixedExpenses = 0;
+            fixedExpenseInputs.forEach(i => fixedExpenses += parseFloat(i.value) || 0);
 
-            const balance = totalIncome - totalExpense;
+            let sumHomeWeekday = 0;
+            homeWeekdayInputs.forEach(i => sumHomeWeekday += parseFloat(i.value) || 0);
+
+            let sumOutWeekday = 0;
+            outWeekdayInputs.forEach(i => sumOutWeekday += parseFloat(i.value) || 0);
             
-            // Update UI
+            let sumWeekend = 0;
+            weekendInputs.forEach(i => sumWeekend += parseFloat(i.value) || 0);
+
+            // Calculate monthly sums based on provided days
+            const monthlyRoutineExpenses = (sumHomeWeekday * 5) + (sumOutWeekday * 17) + (sumWeekend * 8);
+            const totalExpense = fixedExpenses + monthlyRoutineExpenses;
+            const balance = totalIncome - totalExpense;
+
+            // UI Updates
             document.getElementById('total-income').textContent = formatCurrency(totalIncome);
             document.getElementById('summary-income').textContent = formatCurrency(totalIncome);
             document.getElementById('total-expense').textContent = formatCurrency(totalExpense);
             
-            const balanceEl = document.getElementById('balance');
-            balanceEl.textContent = formatCurrency(balance);
+            const bEl = document.getElementById('balance');
+            bEl.textContent = formatCurrency(balance);
+            bEl.className = `text-3xl font-black amount-display ${balance < 0 ? 'text-rose-600' : 'text-emerald-600'}`;
             
-            // Color logic for balance
+            document.getElementById('weekday-home-total').textContent = formatCurrency(sumHomeWeekday);
+            document.getElementById('weekday-out-total').textContent = formatCurrency(sumOutWeekday);
+            document.getElementById('weekend-total').textContent = formatCurrency(sumWeekend);
+
+            document.getElementById('weekly-avg').textContent = formatCurrency(totalExpense / 4);
+            document.getElementById('daily-avg').textContent = formatCurrency(totalExpense / 30);
+            document.getElementById('actual-daily-avg').textContent = formatCurrency(monthlyRoutineExpenses / 30);
+
+            const allowance = (balance / 4) + (sumWeekend * 2);
+            document.getElementById('weekend-allowance').textContent = formatCurrency(allowance > 0 ? allowance : 0);
+
+            const msgEl = document.getElementById('status-message');
             if (balance < 0) {
-                balanceEl.classList.remove('text-slate-800', 'text-emerald-600');
-                balanceEl.classList.add('text-rose-600');
-            } else if (balance > 0) {
-                balanceEl.classList.remove('text-slate-800', 'text-rose-600');
-                balanceEl.classList.add('text-emerald-600');
+                msgEl.textContent = "⚠️ 予算オーバーです。外食の頻度や単価を見直す必要があります。";
+                msgEl.className = "text-xs leading-relaxed text-rose-300";
+            } else if (balance > 150000) {
+                msgEl.textContent = "✨ 素晴らしいバランスです。しっかり貯蓄しつつ充実した外食ライフを送れています。";
+                msgEl.className = "text-xs leading-relaxed text-emerald-300";
             } else {
-                balanceEl.classList.add('text-slate-800');
-                balanceEl.classList.remove('text-rose-600', 'text-emerald-600');
+                msgEl.textContent = "✅ 収支はプラスです。外食17日間という設定の中で、家食の5日間が節約のポイントになっています。";
+                msgEl.className = "text-xs leading-relaxed text-slate-300";
             }
 
-            // Progress bar
-            const progressBar = document.getElementById('progress-bar');
-            const percentage = totalIncome > 0 ? (totalExpense / totalIncome) * 100 : 0;
-            progressBar.style.width = Math.min(percentage, 100) + '%';
-            
-            if (percentage > 100) {
-                progressBar.classList.replace('bg-indigo-500', 'bg-rose-500');
-            } else {
-                progressBar.classList.replace('bg-rose-500', 'bg-indigo-500');
-            }
+            const pBar = document.getElementById('progress-bar');
+            const p = totalIncome > 0 ? (totalExpense / totalIncome) * 100 : 0;
+            pBar.style.width = Math.min(p, 100) + '%';
+            pBar.className = `h-full transition-all duration-500 ${p > 100 ? 'bg-rose-500' : 'bg-indigo-500'}`;
         }
 
-        // Initialize
         window.onload = updateAll;
     </script>
 </body>
